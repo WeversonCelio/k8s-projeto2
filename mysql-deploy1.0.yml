@@ -49,9 +49,15 @@ spec:
         name: mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: Senha123
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: ROOT_PASSWORD
         - name: MYSQL_DATABASE
-          value: meubanco
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: MYSQL_DATABASE
         ports:
         - containerPort: 3306
           name: mysql
@@ -63,28 +69,3 @@ spec:
       - name: local
         persistentVolumeClaim:
           claimName: local
-
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: php
-  labels:
-    app: php
-spec:
-  replicas: 6
-  selector:
-    matchLabels:
-      app: php
-  template:
-    metadata:
-      labels:
-        app: php
-    spec:
-      containers:
-      - name: php
-        image: weversoncelio/projeto-backend:1.0
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80

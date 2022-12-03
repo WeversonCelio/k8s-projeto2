@@ -1,5 +1,5 @@
-echo "Criando  servicos no clouster Kubernetes"
-kubectl.exe apply -f ./services.yml
 
-echo "Criando  os deployments"
-kubectl.exe apply -f ./deployment.yml
+kubectl.exe apply -f ./services.yml --record
+
+kubectl apply -f .\mysql-deploy1.0.yml --record
+kubectl apply -f .\app-deploy1.0.yml --record
